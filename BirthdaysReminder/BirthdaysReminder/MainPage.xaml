@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:BirthdaysReminder"
+             x:Class="BirthdaysReminder.MainPage"
+             x:Name="ListPage"
+             Title="Birthday Reminder">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem x:Name="AddButton"
+                 Text="Add" />
+  </ContentPage.ToolbarItems>
+  <Grid>
+    <ListView ItemsSource="{Binding Birthdays, Source={x:Reference ListPage}}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextCell Text="{Binding Name}" Detail="{Binding Birthday}">
+          </TextCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+    
+    <!--Activity Indicator -->
+    <StackLayout IsVisible="{Binding Source={x:Reference ListPage}, Path=IsBusy}"
+                HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20">
+      <Label Text="Loading Data..." TextColor="Gray" HorizontalOptions="Center" />
+      <ActivityIndicator IsRunning="{Binding Source={x:Reference ListPage}, Path=IsBusy}" Color="Accent" >
+      </ActivityIndicator>
+    </StackLayout>
+
+  </Grid>
+
+</ContentPage>
