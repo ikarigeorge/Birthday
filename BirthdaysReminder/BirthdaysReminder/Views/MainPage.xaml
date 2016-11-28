@@ -7,10 +7,12 @@
              Title="Birthday Reminder">
   <ContentPage.ToolbarItems>
     <ToolbarItem x:Name="AddButton"
-                 Text="Add" />
+                 Text="Add" Clicked="OnAdd" />
+  <ToolbarItem x:Name="LoadButton"
+                 Text="Refresh" Clicked="Load" />
   </ContentPage.ToolbarItems>
   <Grid>
-    <ListView ItemsSource="{Binding Birthdays, Source={x:Reference ListPage}}">
+    <ListView ItemsSource="{Binding Birthdays, Source={x:Reference ListPage}}" ItemTapped="OnEdit">
       <ListView.ItemTemplate>
         <DataTemplate>
           <TextCell Text="{Binding Name}" Detail="{Binding Birthday}">

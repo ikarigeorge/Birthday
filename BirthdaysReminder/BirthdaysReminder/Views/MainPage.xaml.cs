@@ -12,7 +12,7 @@ namespace BirthdaysReminder
 {
     public partial class MainPage : ContentPage
     {
-        private BirthdaysDao birthdaysDao;
+        readonly BirthdaysDao birthdaysDao;
         public ObservableCollection<Birthdays> Birthdays { get; set; }
 
         public MainPage()
@@ -22,7 +22,7 @@ namespace BirthdaysReminder
             InitializeComponent();
         }
 
-        public async void Load()
+        public async void Load(object sender = null, EventArgs e = null)
         {
             this.IsBusy = true;
 
@@ -41,6 +41,18 @@ namespace BirthdaysReminder
                 this.IsBusy = false;
             }
             
+        }
+
+        async void OnAdd(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(
+                new AddEdit(this, birthdaysDao));
+        }
+
+        async void OnEdit(object sender, ItemTappedEventArgs e)
+        {
+            await Navigation.PushModalAsync(
+                new AddEdit(this, birthdaysDao, (Birthdays)e.Item));
         }
     }
 }

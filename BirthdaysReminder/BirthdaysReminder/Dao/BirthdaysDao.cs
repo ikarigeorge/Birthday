@@ -23,6 +23,24 @@ namespace BirthdaysReminder.Dao
         {
             return table.ToEnumerableAsync();
         }
+
+        public Task AddBirthday(Birthdays birthday)
+        {
+            if (birthday.Year != null)
+            {
+                birthday.Birthday = new DateTime(DateTime.Now.Year - int.Parse(birthday.Year), birthday.Birthday.Month, birthday.Birthday.Day);
+            }
+            return table.InsertAsync(birthday);
+        }
+
+        public Task UpdateBirthday(Birthdays birthday)
+        {
+            if (birthday.Year != null)
+            {
+                birthday.Birthday = new DateTime(DateTime.Now.Year - int.Parse(birthday.Year), birthday.Birthday.Month, birthday.Birthday.Day);
+            }
+            return table.UpdateAsync(birthday);
+        }
         
     }
 }
