@@ -15,32 +15,40 @@ namespace BirthdaysReminder.Dao
         public BirthdaysDao()
         {
             client = new MobileServiceClient("http://birthdaysreminder.azurewebsites.net");
-
             table = client.GetTable<Birthdays>();
         }
 
-        public Task<IEnumerable<Birthdays>> GetBirthdays()
+        public async Task<IEnumerable<Birthdays>> GetBirthdays()
         {
-            return table.ToEnumerableAsync();
+            return await table.ToEnumerableAsync();
         }
 
         public Task AddBirthday(Birthdays birthday)
         {
-            if (birthday.Year != null)
+            if (!string.IsNullOrWhiteSpace(birthday.Year))
             {
                 birthday.Birthday = new DateTime(DateTime.Now.Year - int.Parse(birthday.Year), birthday.Birthday.Month, birthday.Birthday.Day);
+                birthday.Year = "" + (DateTime.Now.Year - int.Parse(birthday.Year));
             }
             return table.InsertAsync(birthday);
         }
 
         public Task UpdateBirthday(Birthdays birthday)
         {
-            if (birthday.Year != null)
+            if (!string.IsNullOrWhiteSpace(birthday.Year))
             {
                 birthday.Birthday = new DateTime(DateTime.Now.Year - int.Parse(birthday.Year), birthday.Birthday.Month, birthday.Birthday.Day);
+                birthday.Year = "" + (DateTime.Now.Year - int.Parse(birthday.Year));
             }
             return table.UpdateAsync(birthday);
         }
+
+        public Task DeleteBirthday(Birthdays birthday)
+        {
+            return table.DeleteAsync(birthday);
+        }
+
+        
         
     }
 }

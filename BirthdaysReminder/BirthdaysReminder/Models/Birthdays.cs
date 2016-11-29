@@ -25,5 +25,19 @@ namespace BirthdaysReminder.Models
 
         [Version]
         public string Version { get; set; }
+
+        public string CellText {
+            get {
+
+                if (!string.IsNullOrWhiteSpace(Year))
+                {
+                    return Name + " (Turns " + (DateTime.Now.Year - int.Parse(Year) + 1) + ")";
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+        }
     }
 }

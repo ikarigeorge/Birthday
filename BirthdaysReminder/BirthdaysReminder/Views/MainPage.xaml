@@ -12,10 +12,15 @@
                  Text="Refresh" Clicked="Load" />
   </ContentPage.ToolbarItems>
   <Grid>
-    <ListView ItemsSource="{Binding Birthdays, Source={x:Reference ListPage}}" ItemTapped="OnEdit">
+    <ListView ItemsSource="{Binding BirthdaysCol, Source={x:Reference ListPage}}" ItemTapped="OnEdit">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding Name}" Detail="{Binding Birthday}">
+          <TextCell Text="{Binding CellText}" Detail="{Binding Birthday, StringFormat='{0:dd MMMM}'}">
+            <TextCell.ContextActions>
+              <MenuItem Clicked="OnDelete"
+                  CommandParameter="{Binding}"
+                  Text="Delete" IsDestructive="True" />
+            </TextCell.ContextActions>
           </TextCell>
         </DataTemplate>
       </ListView.ItemTemplate>

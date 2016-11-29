@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -26,9 +27,10 @@ namespace BirthdaysReminder
             this.birthdaysDao = birthdaysDao;
             existingBirthday = birthday != null;
             Item = existingBirthday ? birthday : new Birthdays();
-            if (!existingBirthday)
+            Item.Birthday = existingBirthday ? new DateTime(DateTime.Now.Year, birthday.Birthday.Month, birthday.Birthday.Day) : DateTime.Now;
+            if (existingBirthday && !string.IsNullOrWhiteSpace(Item.Year))
             {
-            Item.Birthday = DateTime.Now;
+                Item.Year = "" + (DateTime.Now.Year - int.Parse(Item.Year));
             }
             PageTitle = existingBirthday ? "Edit" : "Add";
             ButtonText = existingBirthday ? "Save Changes" : "Save";
@@ -46,7 +48,14 @@ namespace BirthdaysReminder
                 {
                     this.IsBusy = false;
                     await this.DisplayAlert("Missing Information",
-                        "You must enter values for the Name and Date.",
+                        "You must enter values for the Name and Birthday.",
+                        "OK");
+                }
+                else if (!string.IsNullOrWhiteSpace(Item.Year) && !Regex.IsMatch(Item.Year, "^[0-9]{1,3}$"))
+                {
+                    this.IsBusy = false;
+                    await this.DisplayAlert("Wrong Age",
+                        "You must enter a valid Age",
                         "OK");
                 }
                 else

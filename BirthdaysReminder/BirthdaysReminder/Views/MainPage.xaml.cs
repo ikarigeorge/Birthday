@@ -13,11 +13,11 @@ namespace BirthdaysReminder
     public partial class MainPage : ContentPage
     {
         readonly BirthdaysDao birthdaysDao;
-        public ObservableCollection<Birthdays> Birthdays { get; set; }
+        public ObservableCollection<Birthdays> BirthdaysCol { get; set; }
 
         public MainPage()
         {
-            Birthdays = new ObservableCollection<Birthdays>();
+            BirthdaysCol = new ObservableCollection<Birthdays>();
             birthdaysDao = new BirthdaysDao();
             InitializeComponent();
         }
@@ -29,11 +29,11 @@ namespace BirthdaysReminder
             try
             {
                 var result = await birthdaysDao.GetBirthdays();
-                Birthdays.Clear();
+                BirthdaysCol.Clear();
 
                 foreach (var i in result)
                 {
-                    Birthdays.Add(i);
+                    BirthdaysCol.Add(i);
                 }
             }
             finally
@@ -53,6 +53,22 @@ namespace BirthdaysReminder
         {
             await Navigation.PushModalAsync(
                 new AddEdit(this, birthdaysDao, (Birthdays)e.Item));
+        }
+
+        async void OnDelete(object sender, EventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            Birthdays birthday = item.CommandParameter as Birthdays;
+            if (birthday != null)
+            {
+                if (await this.DisplayAlert("Delete Entry?",
+                    "Are you sure you want to delete the entry '"
+                        + birthday.Name + "'?", "Yes", "Cancel") == true)
+                {
+                    await birthdaysDao.DeleteBirthday(birthday);
+                    Load();
+                }
+            }
         }
     }
 }

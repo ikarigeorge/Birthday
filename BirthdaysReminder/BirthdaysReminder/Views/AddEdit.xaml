@@ -6,14 +6,14 @@
              x:Name="AddEditPage">
   <StackLayout Orientation="Vertical">
     <TableView Intent="Form">
-      <TableRoot Title="{Binding PageTitle, Source={x:Reference AddEditPage}}">
-        <TableSection>
-          <EntryCell Label="Name" Text="{Binding Item.Name, Source={x:Reference AddEditPage}}" XAlign="End"/>
+      <TableRoot>
+        <TableSection Title="{Binding PageTitle, Source={x:Reference AddEditPage}}">
+          <EntryCell Label="Name" Text="{Binding Item.Name, Source={x:Reference AddEditPage}}" XAlign="Center"/>
           <ViewCell>
             <StackLayout Orientation="Horizontal">
               <Label Text="Birthday" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
               <DatePicker HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Date="{Binding Item.Birthday, Source={x:Reference AddEditPage}}">
-                <DatePicker.Format>MM-dd</DatePicker.Format>
+                <DatePicker.Format>dd MMMM</DatePicker.Format>
                 <DatePicker.MinimumDate>
                   <sys:DateTime x:FactoryMethod="Parse">
                     <x:Arguments>
@@ -31,7 +31,7 @@
               </DatePicker>
             </StackLayout>
           </ViewCell>
-          <EntryCell Label="Age (Optional)" Text="{Binding Item.Year, Source={x:Reference AddEditPage}}" XAlign="End" Keyboard="Numeric"/>
+          <EntryCell Label="Age (Optional)" Text="{Binding Item.Year, Source={x:Reference AddEditPage}}" XAlign="Center"/>
         </TableSection>
       </TableRoot>
     </TableView>
